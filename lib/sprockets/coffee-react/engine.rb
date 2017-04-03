@@ -15,10 +15,12 @@ if defined?(Rails)
         end
 
         def configure_env(env)
-          env.register_preprocessor 'application/javascript', Sprockets::CoffeeReact
-          env.register_postprocessor 'application/javascript', Sprockets::CoffeeReactPostprocessor
-          env.register_engine '.cjsx', Sprockets::CoffeeReactScript
-          env.register_engine '.js.cjsx', Sprockets::CoffeeReactScript
+          Deprecation.silence do
+            env.register_preprocessor 'application/javascript', Sprockets::CoffeeReact
+            env.register_postprocessor 'application/javascript', Sprockets::CoffeeReactPostprocessor
+            env.register_engine '.cjsx', Sprockets::CoffeeReactScript, silence_deprecation: true
+            env.register_engine '.js.cjsx', Sprockets::CoffeeReactScript, silence_deprecation: true
+          end
         end
       end
     end
